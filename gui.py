@@ -1,5 +1,5 @@
 import PySimpleGUI as sg
-
+import auth
 
 def login_window(window):
     window['-LOGIN-'].update(visible=True)
@@ -9,7 +9,8 @@ def login_window(window):
         if event == sg.WINDOW_CLOSED:
             break
         elif event in 'Login':
-            home_window(window)
+            if auth.login(values['-USER-'], values['-PASS-']):
+                home_window(window)
         elif event in 'Create New User':
             new_user_window(window)
     window.close()
@@ -23,9 +24,11 @@ def new_user_window(window):
         if event == '__TITLEBAR CLOSE__3':
             break
         if event in 'Create':
-            # assert that valid username and password are chosen, create new account,
+            if values['-NEW PASS-'] == values['-PASS_CONF-']:
+                auth.new_user(values['-NEW USER-'], values['-NEW PASS-'])
+            #else:
+                #show error and ask again
             # show a success message, return to login_window
-            # eventually need a create_account function somewhere
             login_window(window)
         if event in 'Cancel':
             login_window(window)
@@ -52,8 +55,8 @@ def window_layouts():
                     [sg.Button('Login'), sg.Button('Create New User')]]
 
     create_user_layout = [[sg.Titlebar('Create New User')],
-                          [sg.Text('Username:', size=(19, 1)), sg.InputText(key='-USER-', size=(15, 1))],
-                          [sg.Text('Password:', size=(19, 1)), sg.InputText(key='-PASS-', size=(15, 1))],
+                          [sg.Text('Username:', size=(19, 1)), sg.InputText(key='-NEW USER-', size=(15, 1))],
+                          [sg.Text('Password:', size=(19, 1)), sg.InputText(key='-NEW PASS-', size=(15, 1))],
                           [sg.Text('Confirm Password:', size=(19, 1)), sg.InputText(key='-PASS_CONF-', size=(15, 1))],
                           [sg.Button('Create'), sg.Button('Cancel')]]
 
