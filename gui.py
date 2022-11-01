@@ -10,8 +10,6 @@ def login_window(window):
             break
         elif event in 'Login':
             if auth.login(values['-USER-'], values['-PASS-']):
-                values['-USER-'] = ''
-                values['-PASS-'] = ''
                 window['-LOGIN-'].update(visible=False)
                 home_window(window)
             else:
@@ -58,14 +56,17 @@ def home_window(window):
 def window_layouts():
     login_layout = [[sg.Titlebar('Green Foot Forward')],
                     [sg.Text('Welcome to Green Foot Forward!')],
-                    [sg.Text('Username:', size=(12, 1)), sg.InputText(key='-USER-', size=(15, 1))],
-                    [sg.Text('Password:', size=(12, 1)), sg.InputText(key='-PASS-', size=(15, 1))],
+                    [sg.Text('Username:', size=(12, 1)), sg.InputText(key='-USER-', size=(15, 1), do_not_clear=False)],
+                    [sg.Text('Password:', size=(12, 1)), sg.InputText(key='-PASS-', size=(15, 1), do_not_clear=False)],
                     [sg.Button('Login'), sg.Button('Create New User')]]
 
     create_user_layout = [[sg.Titlebar('Create New User')],
-                          [sg.Text('Username:', size=(19, 1)), sg.InputText(key='-NEW USER-', size=(15, 1))],
-                          [sg.Text('Password:', size=(19, 1)), sg.InputText(key='-NEW PASS-', size=(15, 1))],
-                          [sg.Text('Confirm Password:', size=(19, 1)), sg.InputText(key='-PASS_CONF-', size=(15, 1))],
+                          [sg.Text('Username:', size=(19, 1)),
+                           sg.InputText(key='-NEW USER-', size=(15, 1), do_not_clear=False)],
+                          [sg.Text('Password:', size=(19, 1)),
+                           sg.InputText(key='-NEW PASS-', size=(15, 1), do_not_clear=False)],
+                          [sg.Text('Confirm Password:', size=(19, 1)),
+                           sg.InputText(key='-PASS_CONF-', size=(15, 1), do_not_clear=False)],
                           [sg.Button('Create'), sg.Button('Cancel')]]
 
     home_layout = [[sg.Titlebar('Green Foot Forward')],
