@@ -10,7 +10,7 @@ class User:
     def get_user_pas(self):
         return self.pas
 
-    def add_activity(self,name, rate, amount):
+    def add_activity(self, name, rate, amount):
         self.activities.append(Activity(name, rate, amount))
 
 

@@ -3,11 +3,14 @@ import data
 
 
 def login(user_id, pas):
-    key = data.users[user_id].key
-    decrypted_pass = key.decrypt(data.users[user_id].get_user_pas()).decode()
-    if (data.users[user_id].get_user_pas() is not None) & (decrypted_pass == pas):
-        return True
-    else:
+    try:
+        key = data.users[user_id].key
+        decrypted_pass = key.decrypt(data.users[user_id].get_user_pas()).decode()
+        if (data.users[user_id].get_user_pas() is not None) & (decrypted_pass == pas):
+            return True
+        else:
+            return False
+    finally:
         return False
 
 

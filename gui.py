@@ -1,18 +1,26 @@
 import PySimpleGUI as sg
 import auth
 
+
 def login_window(window):
-    window['-LOGIN-'].update(visible=True)
     while True:
+        window['-LOGIN-'].update(visible=True)
         event, values = window.read()
-        window['-LOGIN-'].update(visible=False)
         if event == sg.WINDOW_CLOSED:
             break
         elif event in 'Login':
             if auth.login(values['-USER-'], values['-PASS-']):
+                values['-USER-'] = ''
+                values['-PASS-'] = ''
+                window['-LOGIN-'].update(visible=False)
                 home_window(window)
+            else:
+                sg.popup_ok('Error: Incorrect username or password', background_color='#B7CECE', title='Error')
+                continue
         elif event in 'Create New User':
+            window['-LOGIN-'].update(visible=False)
             new_user_window(window)
+
     window.close()
 
 
