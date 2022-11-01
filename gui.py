@@ -13,7 +13,8 @@ def login_window(window):
                 window['-LOGIN-'].update(visible=False)
                 home_window(window)
             else:
-                sg.popup_ok('Error: Incorrect username or password', background_color='#B7CECE', title='Error')
+                sg.popup_ok('Incorrect username or password.', 'Please try again.',
+                            background_color='#B7CECE', title='Error')
                 continue
         elif event in 'Create New User':
             window['-LOGIN-'].update(visible=False)
@@ -23,20 +24,27 @@ def login_window(window):
 
 
 def new_user_window(window):
-    window['-CREATE-'].update(visible=True)
     while True:
+        window['-CREATE-'].update(visible=True)
         event, values = window.read()
-        window['-CREATE-'].update(visible=False)
         if event == '__TITLEBAR CLOSE__3':
             break
         if event in 'Create':
-            if values['-NEW PASS-'] == values['-PASS_CONF-']:
-                auth.new_user(values['-NEW USER-'], values['-NEW PASS-'])
-            #else:
-                #show error and ask again
-            # show a success message, return to login_window
-            login_window(window)
+            user_created = auth.new_user(values['-NEW USER-'], values['-NEW PASS-'], values['-PASS_CONF-'])
+            if user_created == auth.NewUserOptions.USER_EXISTS:
+                sg.popup_ok('This username is already in use.', 'Please try again.',
+                            background_color='#B7CECE', title='Error')
+                continue
+            if user_created == auth.NewUserOptions.PAS_MISMATCH:
+                sg.popup_ok('The passwords you entered do not match.', 'Please try again.',
+                            background_color='#B7CECE', title='Error')
+                continue
+            if user_created == auth.NewUserOptions.USER_CREATED:
+                sg.popup('New user created successfully', background_color='#B7CECE', title='Success')
+                window['-CREATE-'].update(visible=False)
+                login_window(window)
         if event in 'Cancel':
+            window['-CREATE-'].update(visible=False)
             login_window(window)
     window.close()
 

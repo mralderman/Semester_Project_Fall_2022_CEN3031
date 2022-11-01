@@ -22,7 +22,7 @@ class Activity:
         self.total = rate * amount
 
 
-users = dict({'test': User("test", 1)})
+users: dict[str, User] = {}
 
 
 def new_user(user_id, pas, key):
