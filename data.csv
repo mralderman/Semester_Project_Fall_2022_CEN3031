@@ -1,11 +1,4 @@
-name,activity,amount,total
-david,plant trees,3,150
-david,eat veggies,2,80
+user_name,activity,rate,amount
 david,ride bike,4,20
-david,plant trees,2,100
 sam,plant trees,1,50
-sam,eat veggies,3,120
-sam,recycle,5,60
 nick,eat veggies,3,120
-nick,recycle,4,48
-nick,pick up trash,3,120
