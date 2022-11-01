@@ -10,7 +10,7 @@ class User:
     def get_user_pas(self):
         return self.pas
 
-    def add_activity(self,name, rate, amount):
+    def add_activity(self, name, rate, amount):
         self.activities.append(Activity(name, rate, amount))
 
 
@@ -22,7 +22,7 @@ class Activity:
         self.total = rate * amount
 
 
-users = dict({'test': User("test", 1)})
+users: dict[str, User] = {}
 
 
 def new_user(user_id, pas, key):
