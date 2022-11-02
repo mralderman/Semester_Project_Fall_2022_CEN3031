@@ -10,11 +10,7 @@ class User:
     def get_user_pas(self):
         return self.pas
 
-<<<<<<< HEAD
     def add_activity(self, user_id, name, rate, amount):
-=======
-    def add_activity(self, name, rate, amount):
->>>>>>> 5ca48b98f5b9ee23b80125998574cf6a04ff0bce
         self.activities.append(Activity(name, rate, amount))
         with open('data.csv', 'a', newline='') as file:
             append_object = csv.writer(file)
@@ -30,7 +26,7 @@ class Activity:
         self.total = rate * amount
 
 
-users: dict[str, User] = {}
+users = dict({'test': User("test", 1)})
 
 
 def new_user(user_id, pas, key):
@@ -56,7 +52,7 @@ def get_activities_from_file():
         reader = csv.reader(file, delimiter=',')
         next(reader)
         for row in reader:
-            users[row[0]].activities.append(row[1],float(row[2]),float(row[3]))
+            users[row[0]].activities.append(Activity(row[1],float(row[2]),float(row[3])))
     file.close()
 
 
@@ -71,37 +67,4 @@ def get_activities_from_file():
 # 2. read from file and add to user's activity's list at the beginning x
 # 3. read from users file and create a list of users x
 
-get_users_from_file()
 
-for i in users:
-    print(i, " ", users[i].pas)
-
-
-
-
-
-
-"""
-def check_similar_users(users, value):
-    for user in users:
-        if user == value:
-            return False
-    return True
-
-
-
-with open('data.csv') as file:
-    reader = csv.reader(file, delimiter=',')
-    next(reader)
-    for row in reader:
-        data_values.append(User(row[0], row[1], int(row[2]), int(row[3])))
-        if check_similar_users(users, row[0]):
-            users.append(row[0])
-    
-file.close()
-
-for i in data_values:
-    print(i.user_id + " " + i.activity + " ", i.unitAmount, " ", i.total)
-for j in users:
-    print(j)
-"""
