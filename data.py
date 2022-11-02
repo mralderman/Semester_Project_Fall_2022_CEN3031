@@ -10,7 +10,11 @@ class User:
     def get_user_pas(self):
         return self.pas
 
+<<<<<<< HEAD
     def add_activity(self, user_id, name, rate, amount):
+=======
+    def add_activity(self, name, rate, amount):
+>>>>>>> 5ca48b98f5b9ee23b80125998574cf6a04ff0bce
         self.activities.append(Activity(name, rate, amount))
         with open('data.csv', 'a', newline='') as file:
             append_object = csv.writer(file)
@@ -26,7 +30,7 @@ class Activity:
         self.total = rate * amount
 
 
-users = dict({'test': User("test", 1)})
+users: dict[str, User] = {}
 
 
 def new_user(user_id, pas, key):
