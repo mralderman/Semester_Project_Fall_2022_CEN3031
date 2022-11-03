@@ -25,9 +25,27 @@ class Activity:
         self.amount = amount
         self.total = rate * amount
 
+class event:
+    def __init__(self, value, rate_value):
+        self.value = value
+        self.rate_value = rate_value
 
 users = dict({'test': User("test", 1)})
-
+events = {
+    "Meatless meal" : event(6.0,"kg/meal"),
+    "Compost" : event(1.7, "kg/lbf"),
+    "Recycle" : event(0.33, "kg/lbf"),
+    "Install LED bulb" : event(0.38, "kg/bulb"),
+    "Take a 5 minute cold shower" : event(0.2, "kg/shower"),
+    "Turn AC off" : event(0.4, "kg/hr"),
+    "Plant a tree" : event(10.0, "kg/tree"),
+    "Pick up trash" : event(0.33, "kg/lbf"),
+    "Travel by bike" : event(0.4, "kg/lbf"),
+    "Carpool" : event(0.2, "kg/mile"),
+    "Reusable water bottle" : event(0.01, "kg/fl. oz"),
+    "Buy second hand clothing" : event(0.01, "kg/item"),
+    "Reusable shopping bag" : event(1.6, "kg/bag"),
+}
 
 def new_user(user_id, pas, key):
     users[user_id] = User(pas, key)
