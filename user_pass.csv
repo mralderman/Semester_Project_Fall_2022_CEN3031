@@ -1,4 +1,1 @@
-user_name,password,key
-nick,fifty,41
-sam,eight2,2
-david,low,3
+zack,b'gAAAAABjZO-ZbPTJ7Q7V3fZ2jns8COnyh1lBopK4pbPqyD7-EAC1dBaWxqzLfJt0xtrzQwZirsAVevFmvVSrqyVmRCGc2HwLHA==',<cryptography.fernet.Fernet object at 0x0000021A911C31F0>
