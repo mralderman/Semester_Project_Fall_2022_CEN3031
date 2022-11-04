@@ -26,7 +26,7 @@ class Activity:
         self.total = rate * amount
 
 
-users = dict({'test': User("test", 1)})
+users = dict({'test': User("test", '')})
 events = {
     "Meatless meal" : [6.0, "kg/meal"],
     "Compost" : [1.7, "kg/lbf"],
