@@ -44,7 +44,7 @@ events = {
 
 def new_user(user_id, pas, key):
     users[user_id] = User(pas, key)
-    with open('Semester_Project_Fall_2022_CEN3031/user_pass.csv', 'a', newline='') as file:
+    with open('user_pass.csv', 'a', newline='') as file:
         append_object = csv.writer(file)
         appender = [user_id,pas,key]
         append_object.writerow(appender)
