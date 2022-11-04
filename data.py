@@ -55,7 +55,7 @@ def get_users_from_file(): # use this function first to make the dictionary of u
     
     with open('user_pass.csv') as file:
         reader = csv.reader(file, delimiter=',')
-        next(reader)
+        
         for row in reader:
             users.update({row[0] : User(row[1], row[2])})
     file.close()
