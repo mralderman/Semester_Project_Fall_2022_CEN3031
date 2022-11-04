@@ -5,6 +5,7 @@ class User:
         self.pas = pas
         self.key = key
         self.activities = []
+        self.total = 0.0
 
     def get_user_pas(self):
         return self.pas
