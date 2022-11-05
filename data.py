@@ -26,7 +26,7 @@ class Activity:
         self.total = rate * amount
 
 
-users = dict({'test': User("test", '')})
+users = dict({'test': User(b'', b'')})
 events = {
     "Meatless meal" : [6.0, "kg/meal"],
     "Compost" : [1.7, "kg/lbf"],
@@ -45,20 +45,31 @@ events = {
 
 def new_user(user_id, pas, key):
     users[user_id] = User(pas, key)
-    with open('user_pass.csv', 'a', newline='') as file:
-        append_object = csv.writer(file)
-        appender = [user_id,pas,key]
-        append_object.writerow(appender)
+    res = user_id.encode('utf-8')
+    spacer = '\n'
+    spacer_ab = spacer.encode('utf-8')
+    with open ('user_pass.txt', 'ab') as file:
+        file.write(res)
+        file.write(spacer_ab)
+        file.write(pas)
+        file.write(spacer_ab)
+        file.write(key)
+        file.write(spacer_ab)
     file.close()
 
 def get_users_from_file(): # use this function first to make the dictionary of user names
-    
-    with open('user_pass.csv') as file:
-        reader = csv.reader(file, delimiter=',')
-        
-        for row in reader:
-            users.update({row[0] : User(row[1], row[2])})
-    file.close()
+    myfile = open("user_pass.txt", "rb")
+    myline = myfile.readline()
+    while myline:
+        idb = myline.rstrip(b'\n')
+        use_id = idb.decode()
+        sec = myfile.readline()
+        password = sec.rstrip(b'\n')
+        third = myfile.readline()
+        the_key = third.rstrip(b'\n')
+        myline = myfile.readline()
+        users.update({use_id : User(password, the_key)})
+    myfile.close() 
 
 def get_activities_from_file():
     

@@ -1,7 +1,7 @@
 from cryptography.fernet import Fernet
 import data
 from enum import Enum
-
+import base64
 
 class NewUserOptions(Enum):
     USER_CREATED = 0

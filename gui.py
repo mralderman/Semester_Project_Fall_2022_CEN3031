@@ -1,7 +1,7 @@
 import PySimpleGUI as sg
 import auth
 
-
+auth.data.get_users_from_file()
 def login_window(window):
     while True:
         window['-LOGIN-'].update(visible=True)
