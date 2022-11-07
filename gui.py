@@ -3,7 +3,12 @@ import auth
 import data
 
 
-def login_window(window):
+
+
+
+auth.data.get_users_from_file()
+def login_window(window) -> None: 
+
     while True:
         window['-LOGIN-'].update(visible=True)
         event, values = window.read()
@@ -24,7 +29,7 @@ def login_window(window):
     exit(0)
 
 
-def new_user_window(window):
+def new_user_window(window) -> None:
     while True:
         window['-CREATE-'].update(visible=True)
         event, values = window.read()
@@ -51,7 +56,7 @@ def new_user_window(window):
     exit(0)
 
 
-def home_window(window):
+def home_window(window) -> None:
     while True:
         window['-HOME-'].update(visible=True)
         event, values = window.read()
@@ -64,7 +69,7 @@ def home_window(window):
     exit(0)
 
 
-def make_window():
+def make_window() -> None:
     sg.theme('LightGreen')
     sg.Titlebar(title='Green Foot Forward')
 
@@ -104,4 +109,5 @@ def make_window():
 def init():
     auth.data.get_users_from_file()
     login_window(make_window())
+
 
