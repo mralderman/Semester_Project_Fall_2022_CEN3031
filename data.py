@@ -5,7 +5,7 @@ class User:
     def __init__(self, pas: str, key: int) -> None:
         self.pas = pas
         self.key = key
-        self.activities: dict[str, tuple] = []
+        self.activities = []
         self.grand_total: float = 0.0
 
     def get_user_pas(self) -> str:
