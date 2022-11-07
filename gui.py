@@ -1,8 +1,14 @@
 import PySimpleGUI as sg
 import auth
+import data
+
+
+
+
 
 auth.data.get_users_from_file()
-def login_window(window):
+def login_window(window) -> None: 
+
     while True:
         window['-LOGIN-'].update(visible=True)
         event, values = window.read()
@@ -23,14 +29,14 @@ def login_window(window):
     exit(0)
 
 
-def new_user_window(window):
+def new_user_window(window) -> None:
     while True:
         window['-CREATE-'].update(visible=True)
         event, values = window.read()
         if event == '__TITLEBAR CLOSE__3':
             break
         elif event in 'Create':
-            user_created = auth.new_user(values['-NEW USER-'], values['-NEW PASS-'], values['-PASS_CONF-'])
+            user_created = auth.new_user(values['-NEW-USER-'], values['-NEW-PASS-'], values['-PASS-CONF-'])
             if user_created == auth.NewUserOptions.USER_EXISTS:
                 sg.popup_ok('This username is already in use.', 'Please try again.',
                             background_color='#B7CECE', title='Error')
@@ -50,7 +56,7 @@ def new_user_window(window):
     exit(0)
 
 
-def home_window(window):
+def home_window(window) -> None:
     while True:
         window['-HOME-'].update(visible=True)
         event, values = window.read()
@@ -63,7 +69,7 @@ def home_window(window):
     exit(0)
 
 
-def make_window():
+def make_window() -> None:
     sg.theme('LightGreen')
     sg.Titlebar(title='Green Foot Forward')
 
@@ -75,15 +81,20 @@ def make_window():
 
     create_user_layout = [[sg.Titlebar('Create New User')],
                           [sg.Text('Username:', size=(19, 1)),
-                           sg.InputText(key='-NEW USER-', size=(15, 1), do_not_clear=False)],
+                           sg.InputText(key='-NEW-USER-', size=(15, 1), do_not_clear=False)],
                           [sg.Text('Password:', size=(19, 1)),
-                           sg.InputText(key='-NEW PASS-', size=(15, 1), do_not_clear=False)],
+                           sg.InputText(key='-NEW-PASS-', size=(15, 1), do_not_clear=False)],
                           [sg.Text('Confirm Password:', size=(19, 1)),
-                           sg.InputText(key='-PASS_CONF-', size=(15, 1), do_not_clear=False)],
+                           sg.InputText(key='-PASS-CONF-', size=(15, 1), do_not_clear=False)],
                           [sg.Button('Create'), sg.Button('Cancel')]]
 
+    activities_list = [key for key in data.stored_activities.keys()]
+    activities_list.insert(0, 'Add new activity')
+    # Get all user's data and use it to make a table
     home_layout = [[sg.Titlebar('Green Foot Forward')],
-                   [sg.Text('Main menu')],
+                   [sg.Text('Choose an activity'), sg.Combo(values=activities_list)],
+                   [sg.Text('Your all time total'), sg.Text('Graph/Table goes here')],
+                   [sg.Text('All user totals'), sg.Text('Table goes here')],
                    [sg.Button('Logout')]]
 
     layouts = [[sg.Column(login_layout, key='-LOGIN-', visible=False),
@@ -96,8 +107,7 @@ def make_window():
 
 
 def init():
+    auth.data.get_users_from_file()
     login_window(make_window())
 
-
-init()
 
