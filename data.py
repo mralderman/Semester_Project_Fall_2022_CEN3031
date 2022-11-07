@@ -6,13 +6,14 @@ class User:
         self.pas = pas
         self.key = key
         self.activities: dict[str, tuple] = []
-        self.total: float = 0.0
+        self.grand_total: float = 0.0
 
     def get_user_pas(self) -> str:
         return self.pas
 
     def add_activity(self, user_id: str, name: str, rate: float, amount: float) -> None:
         self.activities.append(Activity(name, rate, amount))
+        self.grand_total = self.grand_total + (rate * amount)
         with open('data.csv', 'a', newline='') as file:
             append_object = csv.writer(file)
             appender = [user_id, name, rate, amount]
