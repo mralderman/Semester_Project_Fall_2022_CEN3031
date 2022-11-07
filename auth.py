@@ -1,7 +1,6 @@
 from cryptography.fernet import Fernet
 import data
 from enum import Enum
-import base64
 
 class NewUserOptions(Enum):
     USER_CREATED = 0
@@ -13,7 +12,6 @@ def login(user_id, pas):
     try:
         key = Fernet(data.users[user_id].key)
         decrypted_pass = key.decrypt(data.users[user_id].get_user_pas()).decode()
-        print(decrypted_pass)
         if (data.users[user_id].get_user_pas() is not None) & (decrypted_pass == pas):
             return True
         else:
