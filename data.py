@@ -2,16 +2,16 @@ import csv
 
 
 class User:
-    def __init__(self, pas, key):
+    def __init__(self, pas: str, key: int) -> None:
         self.pas = pas
         self.key = key
-        self.activities = []
-        self.total = 0.0
+        self.activities: dict[str, tuple] = []
+        self.total: float = 0.0
 
-    def get_user_pas(self):
+    def get_user_pas(self) -> str:
         return self.pas
 
-    def add_activity(self, user_id, name, rate, amount):
+    def add_activity(self, user_id: str, name: str, rate: float, amount: float) -> None:
         self.activities.append(Activity(name, rate, amount))
         with open('data.csv', 'a', newline='') as file:
             append_object = csv.writer(file)
@@ -21,14 +21,15 @@ class User:
 
 
 class Activity:
-    def __init__(self, name, rate, amount):
+    def __init__(self, name: str, rate: float, amount: float):
         self.name = name
         self.rate = rate
         self.amount = amount
-        self.total = rate * amount
+        self.total: float = rate * amount
 
 
 users: dict[str, User] = {}
+
 
 stored_activities: dict[str, tuple] = {
     "Meatless meal" : (6.0, "kg/meal"),
@@ -47,9 +48,11 @@ stored_activities: dict[str, tuple] = {
 }
 
 
-def new_user(user_id, pas, key):
+
+
+def new_user(user_id: str, pas: str, key: int) -> None:
     users[user_id] = User(pas, key)
-    res = user_id.encode('utf-8')
+    res: bytes = user_id.encode('utf-8')
     spacer = '\n'
     spacer_ab = spacer.encode('utf-8')
     with open('user_pass.txt', 'ab') as file:
@@ -62,7 +65,7 @@ def new_user(user_id, pas, key):
     file.close()
 
 
-def get_users_from_file():  # use this function first to make the dictionary of user names
+def get_users_from_file() -> None:  # use this function first to make the dictionary of user names
     my_file = open("user_pass.txt", "rb")
     my_line = my_file.readline()
     while my_line:
@@ -77,7 +80,7 @@ def get_users_from_file():  # use this function first to make the dictionary of 
     my_file.close()
 
 
-def get_activities_from_file():
+def get_activities_from_file() -> None:
     
     with open('data.csv') as file:
         reader = csv.reader(file, delimiter=',')
@@ -85,6 +88,9 @@ def get_activities_from_file():
         for row in reader:
             users[row[0]].activities.append(Activity(row[1], float(row[2]), float(row[3])))
     file.close()
+
+
+
 
 
 # Please Fix
