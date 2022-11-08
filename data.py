@@ -89,20 +89,6 @@ def get_activities_from_file() -> None:
         for row in reader:
             if row[0] in users.keys():
                 users[row[0]].activities.append(Activity(row[1], float(row[2]), float(row[3])))
-                users[row[0]].grand_total = users[row[0]].grand_total + (row[2] * row[3])
+                users[row[0]].grand_total = users[row[0]].grand_total + (float(row[2]) * float(row[3]))
     file.close()
 
-
-
-
-
-# Please Fix
-# CSV should be as follows:
-# num of users
-# list users' user_ids, pas, key
-# list of activities: user_id, name (of activity), rate, amount
-
-# things I need to make
-# 1. write data to file x
-# 2. read from file and add to user's activity's list at the beginning x
-# 3. read from users file and create a list of users x

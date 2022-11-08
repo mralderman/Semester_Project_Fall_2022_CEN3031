@@ -7,6 +7,7 @@ import data
 
 
 auth.data.get_users_from_file()
+auth.data.get_activities_from_file()
 def login_window(window) -> None: 
 
     while True:
