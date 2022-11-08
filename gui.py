@@ -3,11 +3,6 @@ import auth
 import data
 
 
-
-
-
-auth.data.get_users_from_file()
-auth.data.get_activities_from_file()
 def login_window(window) -> None: 
 
     while True:
@@ -109,6 +104,7 @@ def make_window() -> None:
 
 def init():
     auth.data.get_users_from_file()
+    auth.data.get_activities_from_file()
     login_window(make_window())
 
 
