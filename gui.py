@@ -41,6 +41,10 @@ def new_user_window(window) -> None:
                 sg.popup_ok('The passwords you entered do not match.', 'Please try again.',
                             background_color='#B7CECE', title='Error')
                 continue
+            elif user_created == auth.NewUserOptions.BLANK_USER:
+                sg.popup_ok('User name cannot be blank.', 'Please try again.',
+                            background_color='#B7CECE', title='Error')
+                continue
             elif user_created == auth.NewUserOptions.USER_CREATED:
                 sg.popup('New user created successfully', background_color='#B7CECE', title='Success')
                 window['-CREATE-'].update(visible=False)

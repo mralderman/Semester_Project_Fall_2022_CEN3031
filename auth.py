@@ -7,6 +7,7 @@ class NewUserOptions(Enum):
     USER_CREATED = 0
     USER_EXISTS = 1
     PAS_MISMATCH = 2
+    BLANK_USER = 3
 
 
 def login(user_id: str, pas: str) -> bool: 
@@ -27,8 +28,11 @@ def new_user(user_id: str, pas: str, pas_conf: str) -> NewUserOptions:
 
     if pas != pas_conf:
         return NewUserOptions.PAS_MISMATCH
-# separate key into key and token send key into new user not token
-    key = Fernet.generate_key()
+ 
+    if user_id == '' or user_id ==' ':
+        return NewUserOptions.BLANK_USER
+        
+    key = Fernet.generate_key() # separate key into key and token send key into new user not token
     cypher = Fernet(key)
     data.new_user(user_id, cypher.encrypt(pas.encode()), key)
     return NewUserOptions.USER_CREATED
