@@ -87,7 +87,9 @@ def get_activities_from_file() -> None:
         reader = csv.reader(file, delimiter=',')
         next(reader)
         for row in reader:
-            users[row[0]].activities.append(Activity(row[1], float(row[2]), float(row[3])))
+            if row[0] in users.keys():
+                users[row[0]].activities.append(Activity(row[1], float(row[2]), float(row[3])))
+                users[row[0]].grand_total = users[row[0]].grand_total + (row[2] * row[3])
     file.close()
 
 
