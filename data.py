@@ -1,19 +1,39 @@
 import csv
 
 
+
+class Activity:
+    def __init__(self, name: str, rate: float, amount: float):
+        self.name: str = name
+        self.rate: float = rate
+        self.amount: float = amount
+        self.total: float = rate * amount
+
 class User:
-    def __init__(self, pas: str, key: int) -> None:
+    
+
+    
+    
+    def __init__(self, pas: str, key: str, activities = None) -> None:
         self.pas = pas
         self.key = key
-        self.activities = []
+
+        if activities is None:
+           activities = []
+        self.activities = activities 
         self.grand_total: float = 0.0
 
+       
+    
     def get_user_pas(self) -> str:
         return self.pas
+    
+
+    
 
     def add_activity(self, user_id: str, name: str, rate: float, amount: float) -> None:
         self.activities.append(Activity(name, rate, amount))
-        self.grand_total = self.grand_total + (rate * amount)
+        self.grand_total: float = self.grand_total + (rate * amount)
         with open('data.csv', 'a', newline='') as file:
             append_object = csv.writer(file)
             appender = [user_id, name, rate, amount]
@@ -21,15 +41,10 @@ class User:
         file.close()
 
 
-class Activity:
-    def __init__(self, name: str, rate: float, amount: float):
-        self.name = name
-        self.rate = rate
-        self.amount = amount
-        self.total: float = rate * amount
-
-
 users: dict[str, User] = {}
+
+def getUser(userId: str) -> None:
+    return users[userId]
 
 
 stored_activities: dict[str, tuple] = {
