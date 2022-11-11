@@ -10,7 +10,7 @@ class Activity:
 
 class User:
     
-    def __init__(self, pas: str, key: str, activities = None) -> None:
+    def __init__(self, pas, key, activities = None) -> None:
         self.pas: str = pas
         self.key: str = key
         if activities is None:
