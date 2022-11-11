@@ -1,6 +1,7 @@
 from cryptography.fernet import Fernet
 import data
 from enum import Enum
+import csv
 
 
 class NewUserOptions(Enum):
@@ -23,6 +24,7 @@ def login(user_id: str, pas: str) -> bool:
 
 
 def new_user(user_id: str, pas: str, pas_conf: str) -> NewUserOptions:
+    
     if data.users.get(user_id):
         return NewUserOptions.USER_EXISTS
 

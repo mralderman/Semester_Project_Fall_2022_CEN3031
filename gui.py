@@ -2,9 +2,7 @@ import PySimpleGUI as sg
 import auth
 import data
 
-
-def login_window(window) -> None: 
-
+def login_window(window) -> None:
     while True:
         window['-LOGIN-'].update(visible=True)
         event, values = window.read()
@@ -12,8 +10,9 @@ def login_window(window) -> None:
             break
         elif event in 'Login':
             if auth.login(values['-USER-'], values['-PASS-']):
+                currUserId: str = values['-USER-']
                 window['-LOGIN-'].update(visible=False)
-                home_window(window)
+                home_window(window, currUserId)
             else:
                 sg.popup_ok('Incorrect username or password.', 'Please try again.',
                             background_color='#B7CECE', title='Error')
@@ -56,15 +55,21 @@ def new_user_window(window) -> None:
     exit(0)
 
 
-def home_window(window) -> None:
+def home_window(window, currUserId: str) -> None: 
     while True:
         window['-HOME-'].update(visible=True)
+        window['-OUTPUT-'].update(data.users[currUserId].grand_total)
         event, values = window.read()
+        values['grandTotal'] = data.users[currUserId].grand_total
         if event == '__TITLEBAR CLOSE__7':
             break
         elif event in 'Logout':
             window['-HOME-'].update(visible=False)
             login_window(window)
+        elif event in 'add activity':
+            data.users[currUserId].add_activity(currUserId,values['dropDown'],data.stored_activities[values['dropDown']][0], int(values['-IN-']))
+            window['-OUTPUT-'].update(data.users[currUserId].grand_total)
+        continue
     window.close()
     exit(0)
 
@@ -92,8 +97,10 @@ def make_window() -> None:
     activities_list.insert(0, 'Add new activity')
     # Get all user's data and use it to make a table
     home_layout = [[sg.Titlebar('Green Foot Forward')],
-                   [sg.Text('Choose an activity'), sg.Combo(values=activities_list)],
-                   [sg.Text('Your all time total'), sg.Text('Graph/Table goes here')],
+                   [sg.Text('Choose an activity'),  sg.Combo(values=activities_list, enable_events=True,key = 'dropDown'), 
+                    sg.Text('amount: ', key='-AMOUNT-'),  sg.Input(key='-IN-', size=(15,1)), sg.Button('add activity')],
+                   [sg.Text('Your all time total'), sg.Text(key='-OUTPUT-')], 
+                   [sg.Text('Graph/Table goes here')],
                    [sg.Text('All user totals'), sg.Text('Table goes here')],
                    [sg.Button('Logout')]]
 
