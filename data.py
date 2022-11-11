@@ -58,7 +58,7 @@ stored_activities: dict[str, tuple] = {
 
 
 
-def new_user(user_id: str, pas: str, key: int) -> None:
+def new_user(user_id: str, pas, key) -> None:
     users[user_id] = User(pas, key)
     res: bytes = user_id.encode('utf-8')
     spacer = '\n'

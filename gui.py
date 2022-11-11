@@ -74,7 +74,7 @@ def home_window(window, currUserId: str) -> None:
     exit(0)
 
 
-def make_window() -> None:
+def make_window():
     sg.theme('LightGreen')
     sg.Titlebar(title='Green Foot Forward')
 
