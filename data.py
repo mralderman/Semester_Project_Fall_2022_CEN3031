@@ -1,8 +1,7 @@
 import csv
 
-
-
 class Activity:
+    
     def __init__(self, name: str, rate: float, amount: float):
         self.name: str = name
         self.rate: float = rate
@@ -11,24 +10,17 @@ class Activity:
 
 class User:
     
-
-    
-    
     def __init__(self, pas: str, key: str, activities = None) -> None:
-        self.pas = pas
-        self.key = key
-
+        self.pas: str = pas
+        self.key: str = key
         if activities is None:
-           activities = []
-        self.activities = activities 
+           activities: list = []
+        self.activities: list = activities 
         self.grand_total: float = 0.0
 
-       
-    
+
     def get_user_pas(self) -> str:
         return self.pas
-    
-
     
 
     def add_activity(self, user_id: str, name: str, rate: float, amount: float) -> None:

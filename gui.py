@@ -1,10 +1,6 @@
 import PySimpleGUI as sg
 import auth
 import data
-import csv
-
-
-
 
 def login_window(window) -> None:
     while True:
@@ -71,13 +67,8 @@ def home_window(window, currUserId: str) -> None:
             window['-HOME-'].update(visible=False)
             login_window(window)
         elif event in 'add activity':
-         
             data.users[currUserId].add_activity(currUserId,values['dropDown'],data.stored_activities[values['dropDown']][0], int(values['-IN-']))
-            
             window['-OUTPUT-'].update(data.users[currUserId].grand_total)
-
-        # elif event in 'Your all time total':
-
         continue
     window.close()
     exit(0)
