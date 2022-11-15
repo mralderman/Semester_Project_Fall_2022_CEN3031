@@ -67,11 +67,20 @@ def home_window(window, currUserId: str) -> None:
             window['-HOME-'].update(visible=False)
             login_window(window)
         elif event in 'add activity':
-            data.users[currUserId].add_activity(currUserId,values['dropDown'],data.stored_activities[values['dropDown']][0], int(values['-IN-']))
-            window['-OUTPUT-'].update(data.users[currUserId].grand_total)
+            try:
+                data.users[currUserId].add_activity(currUserId,values['dropDown'],data.stored_activities[values['dropDown']][0], int(values['-IN-']))
+                window['-OUTPUT-'].update(data.users[currUserId].grand_total)
+            except:
+                tempAct: str = values['dropDown']
+                tempAmt: float = float(values['-IN-'])
+                text = sg.popup_get_text('Activity not found, enter an estimate for the rate')
+                sg.popup('Entering: ' + tempAct +' at a rate of ' + text + ' for ' + currUserId)
+                data.users[currUserId].add_activity(currUserId,tempAct,tempAmt,float(text))
         continue
     window.close()
     exit(0)
+
+
 
 
 def make_window() -> sg.Window:
@@ -97,7 +106,7 @@ def make_window() -> sg.Window:
     activities_list.insert(0, 'Add new activity')
     # Get all user's data and use it to make a table
     home_layout = [[sg.Titlebar('Green Foot Forward')],
-                   [sg.Text('Choose an activity'),  sg.Combo(values=activities_list, enable_events=True,key = 'dropDown'), 
+                   [sg.Text('Choose an activity from the list, or enter a new one'),  sg.Combo(values=activities_list, enable_events=True,key = 'dropDown'), 
                     sg.Text('amount: ', key='-AMOUNT-'),  sg.Input(key='-IN-', size=(15,1)), sg.Button('add activity')],
                    [sg.Text('Your all time total'), sg.Text(key='-OUTPUT-')], 
                    [sg.Text('Graph/Table goes here')],
