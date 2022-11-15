@@ -31,6 +31,9 @@ class User:
             appender = [user_id, name, rate, amount]
             append_object.writerow(appender)
         file.close()
+    
+    def get_user_activities(self):
+        return self.activities
 
 
 users: dict[str, User] = {}
