@@ -10,7 +10,7 @@ class Activity:
 
 class User:
     
-    def __init__(self, pas: str, key: str, activities = None) -> None:
+    def __init__(self, pas, key, activities = None) -> None:
         self.pas: str = pas
         self.key: str = key
         if activities is None:
@@ -58,7 +58,7 @@ stored_activities: dict[str, tuple] = {
 
 
 
-def new_user(user_id: str, pas: str, key: int) -> None:
+def new_user(user_id: str, pas, key) -> None:
     users[user_id] = User(pas, key)
     res: bytes = user_id.encode('utf-8')
     spacer = '\n'
