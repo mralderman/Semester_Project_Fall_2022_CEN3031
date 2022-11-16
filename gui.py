@@ -55,7 +55,13 @@ def new_user_window(window) -> None:
     exit(0)
 
 
+activities_list = [key for key in data.activities_templates.keys()]
+activities_list.insert(0, 'Add new activity')
+
+
 def home_window(window, currUserId: str) -> None: 
+    for key in data.users[currUserId].custom_activities.keys():
+        activities_list.append(key)
     while True:
         window['-HOME-'].update(visible=True)
         window['-OUTPUT-'].update(data.users[currUserId].grand_total)
@@ -66,9 +72,16 @@ def home_window(window, currUserId: str) -> None:
         elif event in 'Logout':
             window['-HOME-'].update(visible=False)
             login_window(window)
-        elif event in 'add activity':
-            data.users[currUserId].add_activity(currUserId,values['dropDown'],data.stored_activities[values['dropDown']][0], int(values['-IN-']))
+        elif event in 'Add Activity':
+            if values['dropDown'] in data.activities_templates.keys():
+                data.users[currUserId].add_activity(currUserId, values['dropDown'], data.activities_templates[values['dropDown']][0], int(values['-IN-']))
+            else:
+                data.users[currUserId].add_activity(currUserId, values['dropDown'],data.users[currUserId].custom_activities[values['dropDown']][0], int(values['-IN-']))
             window['-OUTPUT-'].update(data.users[currUserId].grand_total)
+        elif event in 'Create Activity':
+            data.create_custom_activity_template(currUserId, (values['-NAME-']), float(values['-RATE-']))
+            activities_list.append((values['-NAME-']))
+            window['dropDown'].update(values=activities_list)
         continue
     window.close()
     exit(0)
@@ -93,13 +106,12 @@ def make_window():
                            sg.InputText(key='-PASS-CONF-', size=(15, 1), do_not_clear=False)],
                           [sg.Button('Create'), sg.Button('Cancel')]]
 
-    activities_list = [key for key in data.stored_activities.keys()]
-    activities_list.insert(0, 'Add new activity')
     # Get all user's data and use it to make a table
     home_layout = [[sg.Titlebar('Green Foot Forward')],
-                   [sg.Text('Choose an activity'),  sg.Combo(values=activities_list, enable_events=True,key = 'dropDown'), 
-                    sg.Text('amount: ', key='-AMOUNT-'),  sg.Input(key='-IN-', size=(15,1)), sg.Button('add activity')],
-                   [sg.Text('Your all time total'), sg.Text(key='-OUTPUT-')], 
+                   [sg.Text('Choose an activity'),  sg.Combo(values=activities_list, enable_events=True, key='dropDown'),
+                    sg.Text('Amount: ', key='-AMOUNT-'),  sg.Input(key='-IN-', size=(15,1)), sg.Button('Add Activity')],
+                   [sg.Text('Name: '), sg.Input(key='-NAME-', size=(20,1)),sg.Text('Carbon Saved per Unit (kg): '), sg.Input(key='-RATE-', size=(10,1)), sg.Button('Create Activity')],
+                   [sg.Text('Your total carbon reduction:'), sg.Text(key='-OUTPUT-'), sg.Text('kg')],
                    [sg.Text('Graph/Table goes here')],
                    [sg.Text('All user totals'), sg.Text('Table goes here')],
                    [sg.Button('Logout')]]

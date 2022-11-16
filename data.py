@@ -17,7 +17,7 @@ class User:
            activities: list = []
         self.activities: list = activities 
         self.grand_total: float = 0.0
-
+        self.custom_activities: dict[str, tuple] = {}
 
     def get_user_pas(self) -> str:
         return self.pas
@@ -42,7 +42,7 @@ def getUser(userId: str) -> None:
     return users[userId]
 
 
-stored_activities: dict[str, tuple] = {
+activities_templates: dict[str, tuple] = {
     "Meatless meal" : (6.0, "kg/meal"),
     "Compost" : (1.7, "kg/lbf"),
     "Recycle" : (0.33, "kg/lbf"),
@@ -59,6 +59,23 @@ stored_activities: dict[str, tuple] = {
 }
 
 
+def load_custom_activity_templates():
+    with open('custom_activities.csv') as file:
+        reader = csv.reader(file, delimiter=',')
+        next(reader)
+        for row in reader:
+            if row[0] in users.keys():
+                users[row[0]].custom_activities[row[1]] = (row[2], 'kg/unit')
+    file.close()
+
+
+def create_custom_activity_template(user_id: str,name: str, rate: int):
+    users[user_id].custom_activities[name] = (rate, 'kg/unit')
+    with open('custom_activities.csv', 'a', newline='') as file:
+        append_object = csv.writer(file)
+        appender = [user_id, name, rate]
+        append_object.writerow(appender)
+    file.close()
 
 
 def new_user(user_id: str, pas, key) -> None:
