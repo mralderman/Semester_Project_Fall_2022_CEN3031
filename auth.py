@@ -1,7 +1,6 @@
 from cryptography.fernet import Fernet
 import data
 from enum import Enum
-import csv
 
 
 class NewUserOptions(Enum):
@@ -24,17 +23,16 @@ def login(user_id: str, pas: str) -> bool:
 
 
 def new_user(user_id: str, pas: str, pas_conf: str) -> NewUserOptions:
-    
     if data.users.get(user_id):
         return NewUserOptions.USER_EXISTS
 
     if pas != pas_conf:
         return NewUserOptions.PAS_MISMATCH
  
-    if user_id == '' or user_id ==' ':
+    if user_id == '' or user_id == ' ':
         return NewUserOptions.BLANK_USER
         
-    key = Fernet.generate_key() # separate key into key and token send key into new user not token
+    key = Fernet.generate_key()  # separate key into key and token send key into new user not token
     cypher = Fernet(key)
     data.new_user(user_id, cypher.encrypt(pas.encode()), key)
     return NewUserOptions.USER_CREATED
