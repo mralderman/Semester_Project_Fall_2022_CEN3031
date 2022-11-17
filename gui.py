@@ -82,6 +82,10 @@ def home_window(window, currUserId: str) -> None:
             data.create_custom_activity_template(currUserId, (values['-NAME-']), float(values['-RATE-']))
             activities_list.append((values['-NAME-']))
             window['dropDown'].update(values=activities_list)
+        elif event in 'Hide Data':
+            data.users[currUserId].privacy_on()
+        elif event in 'Show Data':
+            data.users[currUserId].privacy_off()
         continue
     window.close()
     exit(0)
@@ -114,7 +118,7 @@ def make_window():
                    [sg.Text('Your total carbon reduction:'), sg.Text(key='-OUTPUT-'), sg.Text('kg')],
                    [sg.Text('Graph/Table goes here')],
                    [sg.Text('All user totals'), sg.Text('Table goes here')],
-                   [sg.Button('Logout')]]
+                   [sg.Button('Logout'), sg.Button('Hide Data'), sg.Button('Show Data')]]
 
     layouts = [[sg.Column(login_layout, key='-LOGIN-', visible=False),
                 sg.Column(create_user_layout, key='-CREATE-', visible=False),

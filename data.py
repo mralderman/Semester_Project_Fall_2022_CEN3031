@@ -18,6 +18,7 @@ class User:
         self.activities: list = activities 
         self.grand_total: float = 0.0
         self.custom_activities: dict[str, tuple] = {}
+        self.private: bool = False
 
     def get_user_pas(self) -> str:
         return self.pas
@@ -34,6 +35,13 @@ class User:
     
     def get_user_activities(self):
         return self.activities
+    
+    def privacy_on(self) -> None:
+        self.private = True
+
+    def privacy_off(self) -> None:
+        self.private = False 
+
 
 
 users: dict[str, User] = {}
@@ -62,7 +70,6 @@ activities_templates: dict[str, tuple] = {
 def load_custom_activity_templates():
     with open('custom_activities.csv') as file:
         reader = csv.reader(file, delimiter=',')
-        next(reader)
         for row in reader:
             if row[0] in users.keys():
                 users[row[0]].custom_activities[row[1]] = (row[2], 'kg/unit')
