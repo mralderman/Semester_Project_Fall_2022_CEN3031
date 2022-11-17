@@ -2,6 +2,7 @@ import PySimpleGUI as sg
 import auth
 import data
 
+
 def login_window(window) -> None:
     while True:
         window['-LOGIN-'].update(visible=True)
@@ -10,9 +11,9 @@ def login_window(window) -> None:
             break
         elif event in 'Login':
             if auth.login(values['-USER-'], values['-PASS-']):
-                currUserId: str = values['-USER-']
+                curr_user_id: str = values['-USER-']
                 window['-LOGIN-'].update(visible=False)
-                home_window(window, currUserId)
+                home_window(window, curr_user_id)
             else:
                 sg.popup_ok('Incorrect username or password.', 'Please try again.',
                             background_color='#B7CECE', title='Error')
@@ -59,14 +60,15 @@ activities_list = [key for key in data.activities_templates.keys()]
 activities_list.insert(0, 'Add new activity')
 
 
-def home_window(window, currUserId: str) -> None: 
-    for key in data.users[currUserId].custom_activities.keys():
+def home_window(window: sg.Window, curr_user_id: str) -> None:
+    for key in data.users[curr_user_id].custom_activities.keys():
         activities_list.append(key)
+
     while True:
         window['-HOME-'].update(visible=True)
-        window['-OUTPUT-'].update(data.users[currUserId].grand_total)
+        window['-OUTPUT-'].update(data.users[curr_user_id].grand_total)
         event, values = window.read()
-        values['grandTotal'] = data.users[currUserId].grand_total
+        values['grandTotal'] = data.users[curr_user_id].grand_total
         if event == '__TITLEBAR CLOSE__7':
             break
         elif event in 'Logout':
@@ -74,18 +76,18 @@ def home_window(window, currUserId: str) -> None:
             login_window(window)
         elif event in 'Add Activity':
             if values['dropDown'] in data.activities_templates.keys():
-                data.users[currUserId].add_activity(currUserId, values['dropDown'], data.activities_templates[values['dropDown']][0], int(values['-IN-']))
+                data.users[curr_user_id].add_activity(curr_user_id, values['dropDown'], data.activities_templates[values['dropDown']][0], int(values['-IN-']))
             else:
-                data.users[currUserId].add_activity(currUserId, values['dropDown'],data.users[currUserId].custom_activities[values['dropDown']][0], int(values['-IN-']))
-            window['-OUTPUT-'].update(data.users[currUserId].grand_total)
+                data.users[curr_user_id].add_activity(curr_user_id, values['dropDown'], data.users[curr_user_id].custom_activities[values['dropDown']][0], int(values['-IN-']))
+            window['-OUTPUT-'].update(data.users[curr_user_id].grand_total)
         elif event in 'Create Activity':
-            data.create_custom_activity_template(currUserId, (values['-NAME-']), float(values['-RATE-']))
+            data.create_custom_activity_template(curr_user_id, (values['-NAME-']), float(values['-RATE-']))
             activities_list.append((values['-NAME-']))
             window['dropDown'].update(values=activities_list)
         elif event in 'Hide Data':
-            data.users[currUserId].privacy_on()
+            data.users[curr_user_id].privacy_on()
         elif event in 'Show Data':
-            data.users[currUserId].privacy_off()
+            data.users[curr_user_id].privacy_off()
         continue
     window.close()
     exit(0)
@@ -109,6 +111,13 @@ def make_window():
                           [sg.Text('Confirm Password:', size=(19, 1)),
                            sg.InputText(key='-PASS-CONF-', size=(15, 1), do_not_clear=False)],
                           [sg.Button('Create'), sg.Button('Cancel')]]
+    headings = ['Rank', 'User', 'Total (kg)']
+
+    user_list = [user for user in data.users]
+    table_data: list[list[int, str, str]] = []
+    for user in data.users.values():
+        temp = [0, user.user_id, user.grand_total]
+        table_data.append(temp)
 
     # Get all user's data and use it to make a table
     home_layout = [[sg.Titlebar('Green Foot Forward')],
@@ -118,7 +127,9 @@ def make_window():
                    [sg.Text('Your total carbon reduction:'), sg.Text(key='-OUTPUT-'), sg.Text('kg')],
                    [sg.Text('Graph/Table goes here')],
                    [sg.Text('All user totals'), sg.Text('Table goes here')],
-                   [sg.Button('Logout'), sg.Button('Hide Data'), sg.Button('Show Data')]]
+                   [sg.Button('Hide Data'), sg.Button('Show Data')],
+                   [sg.Table(headings=headings, values=table_data)],
+                   [sg.Button('Logout')]]
 
     layouts = [[sg.Column(login_layout, key='-LOGIN-', visible=False),
                 sg.Column(create_user_layout, key='-CREATE-', visible=False),
