@@ -107,13 +107,16 @@ def get_users_from_file() -> None:  # use this function first to make the dictio
     my_line = my_file.readline()
     while my_line:
         idb = my_line.rstrip(b'\n')
-        user_id = idb.decode()
+        idb1 = idb.rstrip(b'\r')
+        user_id = idb1.decode()
         sec = my_file.readline()
         password = sec.rstrip(b'\n')
+        password1 = password.rstrip(b'\r')
         third = my_file.readline()
         the_key = third.rstrip(b'\n')
+        the_key1 = the_key.rstrip(b'\r')
         my_line = my_file.readline()
-        users.update({user_id: User(user_id , password, the_key)})
+        users.update({user_id: User(user_id , password1, the_key1)})
     my_file.close()
 
 
