@@ -76,7 +76,12 @@ def home_window(window: sg.Window, curr_user_id: str) -> None:
             login_window(window)
         elif event in 'Add Activity':
             if values['dropDown'] in data.activities_templates.keys():
-                data.users[curr_user_id].add_activity(curr_user_id, values['dropDown'], data.activities_templates[values['dropDown']][0], int(values['-IN-']))
+                try:
+                    data.users[curr_user_id].add_activity(curr_user_id, values['dropDown'], data.activities_templates[values['dropDown']][0], int(values['-IN-']))
+                except:
+                    sg.popup_ok('Inncorrect Value', 'Please try again.',
+                            background_color='#B7CECE', title='Error')
+                continue
             else:
                 data.users[curr_user_id].add_activity(curr_user_id, values['dropDown'], data.users[curr_user_id].custom_activities[values['dropDown']][0], int(values['-IN-']))
             window['-OUTPUT-'].update(data.users[curr_user_id].grand_total)
