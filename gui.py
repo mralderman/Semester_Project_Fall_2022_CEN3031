@@ -111,19 +111,22 @@ def make_window():
                           [sg.Text('Confirm Password:', size=(19, 1)),
                            sg.InputText(key='-PASS-CONF-', size=(15, 1), do_not_clear=False)],
                           [sg.Button('Create'), sg.Button('Cancel')]]
-    headings = ['Rank', 'User', 'Total (kg)']
 
-    user_list = [user for user in data.users]
+    #  This section generates a 2-D List of the data that goes in the table
+    headings = ['Rank', 'User', 'Total (kg)']
     table_data: list[list[int, str, str]] = []
-    for user in data.users.values():
-        temp = [0, user.user_id, user.grand_total]
+    ranked_users = dict(sorted(data.users.items(), key=lambda x: x[1].grand_total, reverse=True))
+    i = 1
+    for user in ranked_users.values():
+        temp = [i, user.user_id, user.grand_total]
+        i += 1
         table_data.append(temp)
 
     # Get all user's data and use it to make a table
     home_layout = [[sg.Titlebar('Green Foot Forward')],
                    [sg.Text('Choose an activity'),  sg.Combo(values=activities_list, enable_events=True, key='dropDown'),
                     sg.Text('Amount: ', key='-AMOUNT-'),  sg.Input(key='-IN-', size=(15,1)), sg.Button('Add Activity')],
-                   [sg.Text('Name: '), sg.Input(key='-NAME-', size=(20,1)),sg.Text('Carbon Saved per Unit (kg): '), sg.Input(key='-RATE-', size=(10,1)), sg.Button('Create Activity')],
+                   [sg.Text('Name: '), sg.Input(key='-NAME-', size=(20, 1)), sg.Text('Carbon Saved per Unit (kg): '), sg.Input(key='-RATE-', size=(10, 1)), sg.Button('Create Activity')],
                    [sg.Text('Your total carbon reduction:'), sg.Text(key='-OUTPUT-'), sg.Text('kg')],
                    [sg.Text('Graph/Table goes here')],
                    [sg.Text('All user totals'), sg.Text('Table goes here')],
