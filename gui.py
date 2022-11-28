@@ -67,8 +67,22 @@ def home_window(window: sg.Window, curr_user_id: str) -> None:
     while True:
         window['-HOME-'].update(visible=True)
         window['-OUTPUT-'].update(data.users[curr_user_id].grand_total)
+
+        #  User ranking table is updated with the for loop
+        table_data: list[list[int, str, str]] = []
+        ranked_users = dict(sorted(data.users.items(), key=lambda x: x[1].grand_total, reverse=True))
+        i = 1
+        for user in ranked_users.values():
+            if not user.private:
+                temp = [i, user.user_id, user.grand_total]
+                i += 1
+                table_data.append(temp)
+        window['-RANKING-'].update(table_data)
+
         event, values = window.read()
+
         values['grandTotal'] = data.users[curr_user_id].grand_total
+
         if event == '__TITLEBAR CLOSE__7':
             break
         elif event in 'Logout':
@@ -119,15 +133,7 @@ def make_window():
 
     #  This section generates a 2-D List of the data that goes in the table
     headings = ['Rank', 'User', 'Total (kg)']
-    table_data: list[list[int, str, str]] = []
-    ranked_users = dict(sorted(data.users.items(), key=lambda x: x[1].grand_total, reverse=True))
-    i = 1
-    for user in ranked_users.values():
-        temp = [i, user.user_id, user.grand_total]
-        i += 1
-        table_data.append(temp)
 
-    # Get all user's data and use it to make a table
     home_layout = [[sg.Titlebar('Green Foot Forward')],
                    [sg.Text('Choose an activity'),  sg.Combo(values=activities_list, enable_events=True, key='dropDown'),
                     sg.Text('Amount: ', key='-AMOUNT-'),  sg.Input(key='-IN-', size=(15,1)), sg.Button('Add Activity')],
@@ -136,7 +142,7 @@ def make_window():
                    [sg.Text('Graph/Table goes here')],
                    [sg.Text('All user totals'), sg.Text('Table goes here')],
                    [sg.Button('Hide Data'), sg.Button('Show Data')],
-                   [sg.Table(headings=headings, values=table_data)],
+                   [sg.Table(values=[[]], headings=headings, key='-RANKING-')],
                    [sg.Button('Logout')]]
 
     layouts = [[sg.Column(login_layout, key='-LOGIN-', visible=False),
