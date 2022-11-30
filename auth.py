@@ -34,7 +34,7 @@ def new_user(user_id: str, pas: str, pas_conf: str) -> NewUserOptions:
     if user_id == '' or user_id == ' ':
         return NewUserOptions.BLANK_USER
         
-    key = Fernet.generate_key()  # separate key into key and token send key into new user not token
+    key = Fernet.generate_key()
     cypher = Fernet(key)
     data.new_user(user_id, cypher.encrypt(pas.encode()), key)
     return NewUserOptions.USER_CREATED
