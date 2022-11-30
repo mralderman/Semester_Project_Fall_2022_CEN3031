@@ -26,6 +26,7 @@ class User:
     def get_user_pas(self) -> str:
         return self.pas
 
+    # Adds a custom activity to the user's profile
     def add_activity(self, user_id: str, name: str, rate: float, amount: float) -> None:
         self.activities.append(Activity(name, rate, amount))
         self.grand_total: float = self.grand_total + (rate * amount)
@@ -35,6 +36,7 @@ class User:
             append_object.writerow(appender)
         file.close()
 
+    # Returns a user's custom activities
     def get_user_activities(self) -> list:
         return self.activities
     
@@ -44,14 +46,15 @@ class User:
     def privacy_off(self) -> None:
         self.private = False 
 
-
+# Initializes the container for all users
 users: dict[str, User] = {}
 
 
-def getUser(user_id: str) -> User:
+def get_user(user_id: str) -> User:
     return users[user_id]
 
 
+# Default list of activities
 activities_templates: dict[str, tuple] = {
     "Meatless meal": (6.0, "kg/meal"),
     "Compost": (1.7, "kg/lbf"),
@@ -69,6 +72,7 @@ activities_templates: dict[str, tuple] = {
 }
 
 
+# Loads all custom activities from the save file
 def load_custom_activity_templates():
     with open('custom_activities.csv') as file:
         reader = csv.reader(file, delimiter=',')
@@ -78,6 +82,7 @@ def load_custom_activity_templates():
     file.close()
 
 
+# Creates a new custom activity
 def create_custom_activity_template(user_id: str, name: str, rate: int):
     users[user_id].custom_activities[name] = (rate, 'kg/unit')
     with open('custom_activities.csv', 'a', newline='') as file:
@@ -87,6 +92,7 @@ def create_custom_activity_template(user_id: str, name: str, rate: int):
     file.close()
 
 
+# Creates a new user and saves their login information
 def new_user(user_id: str, pas, key) -> None:
     users[user_id] = User(user_id, pas, key)
     res: bytes = user_id.encode('utf-8')
@@ -102,7 +108,7 @@ def new_user(user_id: str, pas, key) -> None:
     file.close()
 
 
-def get_users_from_file() -> None:  # use this function first to make the dictionary of user names
+def get_users_from_file() -> None:  # use this function first to make the dictionary of usernames
     my_file = open("user_pass.txt", "rb")
     my_line = my_file.readline()
     while my_line:
@@ -120,6 +126,7 @@ def get_users_from_file() -> None:  # use this function first to make the dictio
     my_file.close()
 
 
+# Reads all user activities from a file
 def get_activities_from_file() -> None:
     with open('data.csv') as file:
         reader = csv.reader(file, delimiter=',')
