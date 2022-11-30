@@ -10,6 +10,7 @@ class NewUserOptions(Enum):
     BLANK_USER = 3
 
 
+# Compares submitted username and password to stored usernames and passwords to validate login
 def login(user_id: str, pas: str) -> bool: 
     try:
         key = Fernet(data.users[user_id].key)
@@ -22,6 +23,7 @@ def login(user_id: str, pas: str) -> bool:
         return False
 
 
+# Creates a new user and encrypts their password
 def new_user(user_id: str, pas: str, pas_conf: str) -> NewUserOptions:
     if data.users.get(user_id):
         return NewUserOptions.USER_EXISTS
@@ -32,7 +34,7 @@ def new_user(user_id: str, pas: str, pas_conf: str) -> NewUserOptions:
     if user_id == '' or user_id == ' ':
         return NewUserOptions.BLANK_USER
         
-    key = Fernet.generate_key()  # separate key into key and token send key into new user not token
+    key = Fernet.generate_key()
     cypher = Fernet(key)
     data.new_user(user_id, cypher.encrypt(pas.encode()), key)
     return NewUserOptions.USER_CREATED
