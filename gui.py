@@ -22,7 +22,7 @@ def login_window(window) -> None:
             # Credentials are invalid
             else:
                 sg.popup_ok('Incorrect username or password.', 'Please try again.',
-                            background_color='# B7CECE', title='Error')
+                            background_color='#B7CECE', title='Error')
                 continue
 
         # User clicks Create New User
@@ -47,24 +47,24 @@ def new_user_window(window) -> None:
             # Username is taken
             if user_created == auth.NewUserOptions.USER_EXISTS:
                 sg.popup_ok('This username is already in use.', 'Please try again.',
-                            background_color='# B7CECE', title='Error')
+                            background_color='#B7CECE', title='Error')
                 continue
 
             # Passwords don't Match
             elif user_created == auth.NewUserOptions.PAS_MISMATCH:
                 sg.popup_ok('The passwords you entered do not match.', 'Please try again.',
-                            background_color='# B7CECE', title='Error')
+                            background_color='#B7CECE', title='Error')
                 continue
 
             # Username is blank
             elif user_created == auth.NewUserOptions.BLANK_USER:
                 sg.popup_ok('User name cannot be blank.', 'Please try again.',
-                            background_color='# B7CECE', title='Error')
+                            background_color='#B7CECE', title='Error')
                 continue
 
             # Successful User Creation
             elif user_created == auth.NewUserOptions.USER_CREATED:
-                sg.popup('New user created successfully', background_color='# B7CECE', title='Success')
+                sg.popup('New user created successfully', background_color='#B7CECE', title='Success')
                 window['-CREATE-'].update(visible=False)
                 login_window(window)
 
@@ -119,7 +119,7 @@ def home_window(window: sg.Window, curr_user_id: str) -> None:
                     data.users[curr_user_id].add_activity(curr_user_id, values['dropDown'], data.activities_templates[values['dropDown']][0], int(values['-IN-']))
                 except:
                     sg.popup_ok('Inncorrect Value', 'Please try again.',
-                            background_color='# B7CECE', title='Error')
+                            background_color='#B7CECE', title='Error')
                 continue
             else:
                 data.users[curr_user_id].add_activity(curr_user_id, values['dropDown'], data.users[curr_user_id].custom_activities[values['dropDown']][0], int(values['-IN-']))
