@@ -127,9 +127,14 @@ def home_window(window: sg.Window, curr_user_id: str) -> None:
 
         # User Clicks Create Activity
         elif event in 'Create Activity':
-            data.create_custom_activity_template(curr_user_id, (values['-NAME-']), float(values['-RATE-']))
-            activities_list.append((values['-NAME-']))
-            window['dropDown'].update(values=activities_list)
+            try:
+                data.create_custom_activity_template(curr_user_id, (values['-NAME-']), float(values['-RATE-']))
+                activities_list.append((values['-NAME-']))
+                window['dropDown'].update(values=activities_list)
+            except:
+                sg.popup_ok('Inncorrect Value', 'Please try again.',
+                        background_color='#B7CECE', title='Error')
+            continue
 
         # User Clicks Hide data
         elif event in 'Hide Data':
