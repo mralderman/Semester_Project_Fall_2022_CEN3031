@@ -90,7 +90,7 @@ def home_window(window: sg.Window, curr_user_id: str) -> None:
     i = 1
     for user in ranked_users.values():
         if user.private == False:
-            temp = [i, user.user_id, user.grand_total]
+            temp = [i, user.user_id, round(user.grand_total,2)]
             i += 1
             table_data.append(temp)
     window['-RANKING-'].update(table_data)
@@ -118,7 +118,7 @@ def home_window(window: sg.Window, curr_user_id: str) -> None:
                     i = 1
                     for user in ranked_users.values():
                         if user.private == False:
-                            temp = [i, user.user_id, user.grand_total]
+                            temp = [i, user.user_id, round(user.grand_total,2)]
                             i += 1
                             new_table_data.append(temp)
                     window['-RANKING-'].update(new_table_data)
