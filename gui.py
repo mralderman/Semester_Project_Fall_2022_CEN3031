@@ -79,7 +79,7 @@ def new_user_window(window) -> None:
 
 # Define list of default activities
 activities_list = [key for key in data.activities_templates.keys()]
-activities_list.insert(0, 'Add new activity')
+#activities_list.insert(0, 'Add new activity')
 
 def home_window(window: sg.Window, curr_user_id: str) -> None:
     for key in data.users[curr_user_id].custom_activities.keys():
@@ -126,7 +126,7 @@ def home_window(window: sg.Window, curr_user_id: str) -> None:
                 except:
                     sg.popup_ok('Inncorrect Value', 'Please try again.',
                             background_color='#B7CECE', title='Error')
-                continue
+                    continue
             else:
                 data.users[curr_user_id].add_activity(curr_user_id, values['dropDown'], data.users[curr_user_id].custom_activities[values['dropDown']][0], int(values['-IN-']))    
             window['-OUTPUT-'].update(data.users[curr_user_id].grand_total)
