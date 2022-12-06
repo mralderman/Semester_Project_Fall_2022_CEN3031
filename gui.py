@@ -97,9 +97,9 @@ def home_window(window: sg.Window, curr_user_id: str) -> None:
 
     while True:
         window['-HOME-'].update(visible=True)
-        window['-OUTPUT-'].update(data.users[curr_user_id].grand_total)
+        window['-OUTPUT-'].update(round(data.users[curr_user_id].grand_total,2))
         event, values = window.read()
-        values['grandTotal'] = data.users[curr_user_id].grand_total
+        values['grandTotal'] = round(data.users[curr_user_id].grand_total,2)
 
         if event == '__TITLEBAR CLOSE__7':
             break
@@ -129,7 +129,7 @@ def home_window(window: sg.Window, curr_user_id: str) -> None:
                     continue
             else:
                 data.users[curr_user_id].add_activity(curr_user_id, values['dropDown'], data.users[curr_user_id].custom_activities[values['dropDown']][0], int(values['-IN-']))    
-            window['-OUTPUT-'].update(data.users[curr_user_id].grand_total)
+            window['-OUTPUT-'].update(round(data.users[curr_user_id].grand_total,2))
 
         # User Clicks Create Activity
         elif event == 'Create Activity':
