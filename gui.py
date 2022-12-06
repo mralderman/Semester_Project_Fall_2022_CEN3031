@@ -128,7 +128,7 @@ def home_window(window: sg.Window, curr_user_id: str) -> None:
                             background_color='#B7CECE', title='Error')
                     continue
             else:
-                data.users[curr_user_id].add_activity(curr_user_id, values['dropDown'], data.users[curr_user_id].custom_activities[values['dropDown']][0], int(values['-IN-']))    
+                data.users[curr_user_id].add_activity(curr_user_id, values['dropDown'], data.users[curr_user_id].custom_activities[values['dropDown']][0], int(values['-IN-']))
             window['-OUTPUT-'].update(round(data.users[curr_user_id].grand_total,2))
 
         # User Clicks Create Activity
@@ -148,7 +148,7 @@ def home_window(window: sg.Window, curr_user_id: str) -> None:
         #   if a user is not selected, an error message it displayed
         elif event == 'Compare':
             try:
-                currUser = data.get_user(curr_user_id) 
+                currUser = data.get_user(curr_user_id)
                 compUser = data.get_user(table_data[values['-RANKING-'][0]][1])
                 drawPlot(currUser, compUser)
             except:
@@ -165,7 +165,7 @@ def home_window(window: sg.Window, curr_user_id: str) -> None:
                     temp = [i, user.user_id, round(user.grand_total,2)]
                     i += 1
                     new_table_data.append(temp)
-            window['-RANKING-'].update(new_table_data)            
+            window['-RANKING-'].update(new_table_data)           
             continue
 
         # User Clicks Show data
@@ -178,7 +178,7 @@ def home_window(window: sg.Window, curr_user_id: str) -> None:
                     temp = [i, user.user_id, round(user.grand_total,2)]
                     i += 1
                     new_table_data.append(temp)
-            window['-RANKING-'].update(new_table_data)   
+            window['-RANKING-'].update(new_table_data) 
         continue
     exit(0)
 
@@ -215,11 +215,11 @@ def make_window():
                    [sg.Text('Your total carbon reduction:'), sg.Text(key='-OUTPUT-'), sg.Text('kg')],
                    [sg.Text('Public Ranking Table:')],
                    [sg.Button('Hide Data'), sg.Button('Show Data'), sg.Button('Compare')],
-                   [sg.Table(values=[[]], headings=headings, 
-                            enable_events=True, 
+                   [sg.Table(values=[[]], headings=headings,
+                            enable_events=True,
                             # enable_click_events= True,
-                            selected_row_colors='red on yellow', 
-                            key='-RANKING-'), 
+                            selected_row_colors='red on yellow',
+                            key='-RANKING-'),
                     sg.Graph(key = 'User Graph',canvas_size=(3,3),graph_bottom_left=any,graph_top_right=any)],
                    [sg.Button('Logout')]]
 
@@ -249,12 +249,12 @@ def drawPlot(currUser: data.User, compUser: data.User):
         tempDictUserTwo = sorted(tempDictUser.items(), key=lambda x:x[1],reverse=True)
         tempDictCompTwo = sorted(tempDictComp.items(), key=lambda x:x[1],reverse=True)
 
-        tempDictUserFinal = dict(tempDictUserTwo[0:3])    
+        tempDictUserFinal = dict(tempDictUserTwo[0:3])
         tempDictCompFinal = dict(tempDictCompTwo[0:3])
 
         userYvalues = []
         compYvalues = []
-        
+
         for values in tempDictUserFinal.values():
             userYvalues.append(values)
 
@@ -275,7 +275,7 @@ def drawPlot(currUser: data.User, compUser: data.User):
             for i in range(compYvaluesLen):
                 compYvalues.append(0)
                 i += 1
-                
+    
         maxUserVal = max(userYvalues)
         maxCompVal = max(compYvalues)
 

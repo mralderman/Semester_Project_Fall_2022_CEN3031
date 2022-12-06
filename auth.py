@@ -11,7 +11,7 @@ class NewUserOptions(Enum):
 
 
 # Compares submitted username and password to stored usernames and passwords to validate login
-def login(user_id: str, pas: str) -> bool: 
+def login(user_id: str, pas: str) -> bool:
     try:
         key = Fernet(data.users[user_id].key)
         decrypted_pass = key.decrypt(data.users[user_id].get_user_pas()).decode()
@@ -30,10 +30,10 @@ def new_user(user_id: str, pas: str, pas_conf: str) -> NewUserOptions:
 
     if pas != pas_conf:
         return NewUserOptions.PAS_MISMATCH
- 
+
     if user_id == '' or user_id == ' ':
         return NewUserOptions.BLANK_USER
-        
+
     key = Fernet.generate_key()
     cypher = Fernet(key)
     data.new_user(user_id, cypher.encrypt(pas.encode()), key)
