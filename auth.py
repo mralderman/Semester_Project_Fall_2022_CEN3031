@@ -17,8 +17,7 @@ def login(user_id: str, pas: str) -> bool:
         decrypted_pass = key.decrypt(data.users[user_id].get_user_pas()).decode()
         if (data.users[user_id].get_user_pas() is not None) & (decrypted_pass == pas):
             return True
-        else:
-            return False
+        return False
     except:
         return False
 
